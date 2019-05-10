@@ -1,0 +1,15 @@
+AllCops:
+  TargetRubyVersion: 2.4
+
+Metrics/LineLength:
+  AutoCorrect: true
+  Max: 120
+
+Style/Documentation:
+  Enabled: false
+
+Style/FrozenStringLiteralComment:
+  Enabled: false
+
+Style/HashSyntax:
+  EnforcedStyle: no_mixed_keys
