@@ -1,9 +1,24 @@
 AllCops:
   TargetRubyVersion: 2.4
 
+Metrics/AbcSize:
+  Enabled: false
+
+Metrics/BlockLength:
+  Enabled: false
+
+Metrics/CyclomaticComplexity:
+  Enabled: false
+
 Metrics/LineLength:
-  AutoCorrect: true
+  AutoCorrect: false
   Max: 120
+
+Metrics/MethodLength:
+  Enabled: false
+
+Metrics/PerceivedComplexity:
+  Enabled: false
 
 Style/Documentation:
   Enabled: false
