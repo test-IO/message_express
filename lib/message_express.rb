@@ -1,3 +1,4 @@
+require 'message_express/configuration'
 require 'message_express/version'
 
 module MessageExpress
