@@ -2,7 +2,7 @@ require 'rschema'
 
 module MessageExpress
   Exception = Class.new(StandardError)
-  InvalidSchema = Class.new(Exception)
+  InvalidSchema = Class.new(RuntimeError)
 
   class Message
     attr_reader :payload
