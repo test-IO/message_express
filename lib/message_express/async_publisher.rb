@@ -1,3 +1,5 @@
+require 'message_express/publisher'
+
 module MessageExpress
   class AsyncPublisher
     include MessageExpress::Publisher
