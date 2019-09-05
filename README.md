@@ -22,7 +22,9 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+# Create a subscriber
+
+  The topic 'messages' of the subscriber is hardcoded in the gem message-express
 
 ## Development
 

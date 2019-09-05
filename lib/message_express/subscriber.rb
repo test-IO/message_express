@@ -19,6 +19,10 @@ module MessageExpress
           (@message_handlers[message.name] || []).each do |blck|
             blck.call(message)
           end
+
+          (@message_handlers['*'] || []).each do |blck|
+            blck.call(message)
+          end
         end
       end
 
