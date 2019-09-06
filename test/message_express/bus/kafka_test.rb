@@ -22,7 +22,7 @@ describe MessageExpress::Bus::Kafka do
     #   kafka_client = Kafka.new([ENV['KAFKA_SEED_BROKER']])
     #   bus = MessageExpress::Bus::Kafka.new(kafka_client)
     #   message = InventoryItemCreated.coerce!('id' => SecureRandom.uuid,
-    #                                        'name' => Faker::RickAndMorty.character)
+    #                                        'name' => Faker::TvShows::RickAndMorty.character)
 
     #   bus.publish message
 

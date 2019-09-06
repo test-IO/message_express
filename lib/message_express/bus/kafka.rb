@@ -6,8 +6,9 @@ module MessageExpress
     class Kafka < AbstractBus
       attr_reader :kafka
 
-      def initialize(kafka_client)
+      def initialize(kafka_client, topic: nil)
         @kafka = kafka_client
+        @topic = topic || 'messages'
       end
 
       def publish(message)
@@ -17,11 +18,11 @@ module MessageExpress
         }
 
         producer = kafka.producer
-        producer.produce(message.to_json, topic: 'messages')
+        producer.produce(message.to_json, topic: @topic)
         producer.deliver_messages
       end
 
-      def subscribe(consumer_group_id:, topic:)
+      def subscribe(consumer_group_id:, topic: @topic)
         consumer = @kafka.consumer(group_id: consumer_group_id)
         consumer.subscribe(topic)
 
