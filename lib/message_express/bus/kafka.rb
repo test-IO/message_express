@@ -20,9 +20,9 @@ module MessageExpress
         producer.deliver_messages
       end
 
-      def subscribe(consumer_group_id:)
+      def subscribe(consumer_group_id:, topic:)
         consumer = @kafka.consumer(group_id: consumer_group_id)
-        consumer.subscribe('messages')
+        consumer.subscribe(topic)
 
         trap('TERM') { consumer.stop }
 
