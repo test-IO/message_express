@@ -24,9 +24,6 @@ Or install it yourself as:
 
 # Create a subscriber
 
-  The topic 'messages' of the subscriber is hardcoded in the gem message-express
-  Subscriber_options, topic and consumer_id are mandatory for the Kafka bus.
-
 # Configuration
 
   Add the gem to the Gemfile
@@ -56,12 +53,9 @@ Or install it yourself as:
     include MessageExpress::Subscriber
 
     on 'inventory_item_created' do |message|
-      message.dig('foo', 'bar')
-      # => 'baz'
-      message['foo']['bar']
-      # => 'baz'
-      message.payload
-      # => { 'foo' => { 'bar' => 'baz' } }
+      message.dig('foo', 'bar') # => 'baz'
+      message['foo']['bar'] # => 'baz'
+      message.payload # => { 'foo' => { 'bar' => 'baz' } }
     end
 
     on :inventory_item_created do |message|
@@ -77,20 +71,33 @@ Or install it yourself as:
   end
   ```
 
-  Example :
-
-  ```ruby
-
-  ```
-
-  ```ruby
-
-  ```
-
   # Publication
+  ```ruby
+  class DummyPublisher
+    include MessageExpress::Publisher
+
+    def create_inventory_item
+      # Your logic
+      publish('inventory_item_created', { 'id' => item_id })
+    end
+  end
+
+  publisher = DummyPublisher.new
+  publisher.publish('inventory_item_created', { 'id' => item_id })
+
+  ```
+
   # Kafka
+  The default topic of the subscriber is 'messages'
+  You can provide subscriber_options, consumer_id is mandatory, and you can specify another topic.
 
+  ```ruby
+  class MessageExpressSubscriber
+    include MessageExpress::Subscriber
 
+    subscriber_options consumer_group_id: 'event_watcher'
+  end
+  ```
 
 ## Development
 
