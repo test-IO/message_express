@@ -1,4 +1,5 @@
 require 'message_express/bus/abstract_bus'
+require 'message_express/message'
 
 module MessageExpress
   module Bus
