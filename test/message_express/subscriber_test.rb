@@ -114,4 +114,27 @@ describe MessageExpress::Subscriber do
 
     DummySubscriber.subscribe!
   end
+
+  it 'allows wildcard subscribtions' do
+    class DummySubscriber
+      include MessageExpress::Subscriber
+
+      on '*' do |message|
+        @catch = message
+      end
+    end
+
+    DummySubscriber.subscribe!
+
+    item_created_id = SecureRandom.uuid
+    MessageExpress.config.bus.publish InventoryItemCreated.coerce!('id' => item_created_id,
+                                                                   'name' => 'foobar')
+
+    DummySubscriber.instance_variable_get(:@catch)['id'].must_equal item_created_id
+
+    item_deactivated_id = SecureRandom.uuid
+    MessageExpress.config.bus.publish InventoryItemDeactivated.coerce!('id' => item_deactivated_id)
+
+    DummySubscriber.instance_variable_get(:@catch)['id'].must_equal item_deactivated_id
+  end
 end
