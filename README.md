@@ -88,7 +88,7 @@ Or install it yourself as:
   ```
 
   # Kafka
-  The default topic of the subscriber is 'messages'
+  The default topic of the subscriber is 'messages'.
   You can provide subscriber_options, consumer_id is mandatory, and you can specify another topic.
 
   ```ruby
