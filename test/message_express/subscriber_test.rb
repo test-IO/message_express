@@ -133,9 +133,8 @@ describe MessageExpress::Subscriber do
     DummySubscriber.instance_variable_get(:@catch)['id'].must_equal item_created_id
 
     item_deactivated_id = SecureRandom.uuid
-    MessageExpress.config.bus.publish InventoryItemDeactivated.coerce!('id' => item_deactivated_id,
-                                                                       'name' => 'foobar')
+    MessageExpress.config.bus.publish InventoryItemDeactivated.coerce!('id' => item_deactivated_id)
 
-    DummySubscriber.instance_variable_get(:@catch)['id'].must_equal item_created_id
+    DummySubscriber.instance_variable_get(:@catch)['id'].must_equal item_deactivated_id
   end
 end
