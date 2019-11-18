@@ -22,7 +22,82 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+# Create a subscriber
+
+# Configuration
+
+  Add the gem to the Gemfile
+
+  ```ruby
+  gem 'message_express', git: 'https://github.com/test-IO/message_express'
+  ```
+
+  You need to create an initializer file in config/initializers.
+
+  ```ruby
+  require 'kafka'
+  require 'message_express'
+  require 'message_express/bus/kafka'
+  require 'message_express/message_store/memento'
+
+  MessageExpress.configure do |c|
+    c.bus MessageExpress::Bus::Kafka.new(Kafka.new([ENV['KAFKA_SEED_BROKER']]))
+    c.message_store MessageExpress::MessageStore::Memento.new
+  end
+  ```
+
+# Subscribtion
+
+  ```ruby
+  class DummySubscriber
+    include MessageExpress::Subscriber
+
+    on 'inventory_item_created' do |message|
+      message.dig('foo', 'bar') # => 'baz'
+      message['foo']['bar'] # => 'baz'
+      message.payload # => { 'foo' => { 'bar' => 'baz' } }
+    end
+
+    on :inventory_item_created do |message|
+      # It also accept symbols.
+    end
+
+    on '*' do |message|
+      # It also accept wildcards, all events will be received.
+
+      message.name
+      # => 'inventory_item_created'
+    end
+  end
+  ```
+
+  # Publication
+  ```ruby
+  class DummyPublisher
+    include MessageExpress::Publisher
+
+    def create_inventory_item
+      # Your logic
+      publish('inventory_item_created', { 'id' => item_id })
+    end
+  end
+
+  publisher = DummyPublisher.new
+  publisher.publish('inventory_item_created', { 'id' => item_id })
+
+  ```
+
+  # Kafka
+  The default topic of the subscriber is 'messages'.
+  You can provide subscriber_options, consumer_id is mandatory, and you can specify another topic.
+
+  ```ruby
+  class MessageExpressSubscriber
+    include MessageExpress::Subscriber
+
+    subscriber_options consumer_group_id: 'event_watcher'
+  end
+  ```
 
 ## Development
 
