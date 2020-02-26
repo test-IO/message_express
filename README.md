@@ -45,6 +45,10 @@ Or install it yourself as:
     c.message_store MessageExpress::MessageStore::Memento.new
   end
   ```
+  #### Want to run your events in a separate sidekiq queue?
+  
+  Set `MESSAGE_EXPRESS_SIDEKIQ_QUEUE` environment variable with queue name
+
 
 # Subscribtion
 
