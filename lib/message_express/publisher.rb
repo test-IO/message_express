@@ -12,7 +12,8 @@ module MessageExpress
 
     def publish_async(message_name, payload)
       MessageExpress.message_name_to_class(message_name).validate! payload
-      MessageExpress::AsyncPublisher.perform_async(message_name, payload)
+      MessageExpress::AsyncPublisher.set(queue: MessageExpress.config.sidekiq_queue)
+                                    .perform_async(message_name, payload)
     end
   end
 end

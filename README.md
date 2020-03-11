@@ -43,12 +43,9 @@ Or install it yourself as:
   MessageExpress.configure do |c|
     c.bus MessageExpress::Bus::Kafka.new(Kafka.new([ENV['KAFKA_SEED_BROKER']]))
     c.message_store MessageExpress::MessageStore::Memento.new
+    c.sidekiq_queue 'awesome-queue' # optional (default: default)
   end
   ```
-  #### Want to run your events in a separate sidekiq queue?
-  
-  Set `MESSAGE_EXPRESS_SIDEKIQ_QUEUE` environment variable with queue name
-
 
 # Subscribtion
 

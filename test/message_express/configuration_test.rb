@@ -34,4 +34,15 @@ describe MessageExpress::Configuration do
       configuration.message_store.class.must_equal MessageExpress::MessageStore::Memento
     end
   end
+
+  describe '#sidekiq_queue' do
+    it 'returns default queue' do
+      configuration.sidekiq_queue.must_equal 'default'
+    end
+
+    it 'allow to set a message store' do
+      configuration.sidekiq_queue 'awesome-queue'
+      configuration.sidekiq_queue.must_equal 'awesome-queue'
+    end
+  end
 end
