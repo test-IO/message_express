@@ -12,7 +12,7 @@ module MessageExpress
         @stream = stream
       end
 
-      def publish(message)
+      def publish(message, stream: @stream)
         message = {
           message_name: message.name,
           message_payload: message.payload

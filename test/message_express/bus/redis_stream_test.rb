@@ -1,4 +1,5 @@
 require 'test_helper'
+require 'message_express/bus/redis_stream'
 
 class DummyRedisClient
   def initialize
@@ -20,8 +21,6 @@ class DummyRedisClient
   def xack(stream, group, message_id)
   end
 end
-
-require 'message_express/bus/redis_stream_bus'
 
 describe MessageExpress::Bus::RedisStream do
   class InventoryItemCreated < MessageExpress::Message
