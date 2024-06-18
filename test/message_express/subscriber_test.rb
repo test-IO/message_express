@@ -50,9 +50,9 @@ describe MessageExpress::Subscriber do
 
     MessageExpress.config.bus.publish InventoryItemDeactivated.coerce!('id' => item_deactivated_id)
 
-    DummySubscriber.instance_variable_get(:@inventory_item_created_message)['id']
+    value(DummySubscriber.instance_variable_get(:@inventory_item_created_message)['id'])
                    .must_equal item_created_id
-    DummySubscriber.instance_variable_get(:@inventory_item_deactivated_message)['id']
+    value(DummySubscriber.instance_variable_get(:@inventory_item_deactivated_message)['id'])
                    .must_equal item_deactivated_id
   end
 
@@ -72,7 +72,7 @@ describe MessageExpress::Subscriber do
     MessageExpress.config.bus.publish InventoryItemCreated.coerce!('id' => item_created_id,
                                                                    'name' => 'foobar')
 
-    DummySubscriber.instance_variable_get(:@inventory_item_created_message)['id']
+    value(DummySubscriber.instance_variable_get(:@inventory_item_created_message)['id'])
                    .must_equal item_created_id
   end
 
@@ -96,9 +96,9 @@ describe MessageExpress::Subscriber do
     MessageExpress.config.bus.publish InventoryItemCreated.coerce!('id' => item_created_id,
                                                                    'name' => 'foobar')
 
-    DummySubscriber.instance_variable_get(:@first_catch)['id']
+    value(DummySubscriber.instance_variable_get(:@first_catch)['id'])
                    .must_equal item_created_id
-    DummySubscriber.instance_variable_get(:@second_catch)['id']
+    value(DummySubscriber.instance_variable_get(:@second_catch)['id'])
                    .must_equal item_created_id
   end
 
@@ -130,11 +130,11 @@ describe MessageExpress::Subscriber do
     MessageExpress.config.bus.publish InventoryItemCreated.coerce!('id' => item_created_id,
                                                                    'name' => 'foobar')
 
-    DummySubscriber.instance_variable_get(:@catch)['id'].must_equal item_created_id
+    value(DummySubscriber.instance_variable_get(:@catch)['id']).must_equal item_created_id
 
     item_deactivated_id = SecureRandom.uuid
     MessageExpress.config.bus.publish InventoryItemDeactivated.coerce!('id' => item_deactivated_id)
 
-    DummySubscriber.instance_variable_get(:@catch)['id'].must_equal item_deactivated_id
+    value(DummySubscriber.instance_variable_get(:@catch)['id']).must_equal item_deactivated_id
   end
 end

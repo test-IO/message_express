@@ -33,7 +33,7 @@ describe MessageExpress::MessageStore::Memory do
       store.save_message(message_foo)
       store.save_message(message_bar)
 
-      store.messages.must_equal [message_foo, message_bar]
+      value(store.messages).must_equal [message_foo, message_bar]
     end
   end
 end

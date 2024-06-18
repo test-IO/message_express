@@ -35,10 +35,10 @@ describe MessageExpress::Publisher do
         message = e
       end
 
-      publisher.publish 'inventory_item_created', 'id' => item_id, 'name' => item_name
+      publisher.publish 'inventory_item_created', {'id' => item_id, 'name' => item_name}
 
-      message['id'].must_equal item_id
-      message['name'].must_equal item_name
+      value(message['id']).must_equal item_id
+      value(message['name']).must_equal item_name
     end
 
     it 'allow to skip payload validation' do
@@ -47,7 +47,7 @@ describe MessageExpress::Publisher do
 
       publisher.publish('inventory_item_created', { 'id' => item_id }, validate: false)
       assert_raises(MessageExpress::InvalidSchema) do
-        publisher.publish('inventory_item_created', 'id' => item_id)
+        publisher.publish('inventory_item_created', {'id' => item_id })
       end
     end
   end

@@ -25,6 +25,6 @@ describe MessageExpress::Bus::FakeBus do
 
     bus.publish message_sent
 
-    @message_received.must_equal message_sent
+    value(@message_received).must_equal message_sent
   end
 end
