@@ -23,7 +23,7 @@ end
 
 require 'message_express/bus/redis_stream_bus'
 
-describe MessageExpress::Bus::RedisStreamBus do
+describe MessageExpress::Bus::RedisStream do
   class InventoryItemCreated < MessageExpress::Message
     define do
       {
@@ -34,7 +34,7 @@ describe MessageExpress::Bus::RedisStreamBus do
   end
 
   it 'allow to fake a simple bus system' do
-    bus = MessageExpress::Bus::RedisStreamBus.new(DummyRedisClient.new)
+    bus = MessageExpress::Bus::RedisStream.new(DummyRedisClient.new)
     message_sent = InventoryItemCreated.coerce!('id' => SecureRandom.uuid,
     'name' => Faker::TvShows::RickAndMorty.character)
 

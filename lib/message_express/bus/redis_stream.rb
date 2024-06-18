@@ -4,7 +4,7 @@ require 'message_express/message'
 
 module MessageExpress
   module Bus
-    class RedisStreamBus < AbstractBus
+    class RedisStream < AbstractBus
       attr_reader :redis_client
 
       def initialize(redis_client, stream: 'messages')
