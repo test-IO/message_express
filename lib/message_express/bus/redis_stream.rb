@@ -32,8 +32,7 @@ module MessageExpress
         messages.each do |stream, entries|
           entries.each do |message_id, message_hash|
             message_data = JSON.parse(message_hash["json"])
-            message_class = ::MessageExpress.message_name_to_class(message_data['message_name'])
-            message = message_class.new(message_data['message_name'], message_data['message_payload'])
+            message = Message.new(message_data['message_name'], message_data['message_payload'])
             yield(message)
             redis_client.xack(stream, consumer_group_id, message_id)
           end
