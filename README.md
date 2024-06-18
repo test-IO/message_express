@@ -90,13 +90,35 @@ Or install it yourself as:
 
   # Kafka
   The default topic of the subscriber is 'messages'.
-  You can provide subscriber_options, consumer_id is mandatory, and you can specify another topic.
+  You can provide `subscriber_options`, consumer_id is mandatory, and you can specify another topic.
 
   ```ruby
   class MessageExpressSubscriber
     include MessageExpress::Subscriber
 
     subscriber_options consumer_group_id: 'event_watcher'
+  end
+  ```
+  # Redis stream
+  The default stream is message
+  you can provide `subscriber_options`, and you can specify another stream
+
+
+  ```ruby
+  class MessageExpressSubscriber
+    include MessageExpress::Subscriber
+
+    subscriber_options stream: 'event_watcher'
+  end
+  ```
+
+  But you can also define an other stream for the publisher using `publisher_options`
+
+  ```ruby
+  class MessageExpressPublisher
+    include MessageExpress::Publisher
+
+    publisher_options stream: 'event_watcher'
   end
   ```
 
