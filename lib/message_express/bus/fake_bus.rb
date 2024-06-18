@@ -7,7 +7,7 @@ module MessageExpress
         @handlers = []
       end
 
-      def publish(message)
+      def publish(message, _options = {})
         @handlers.each do |blck|
           blck.call(message)
         end

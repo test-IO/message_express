@@ -11,7 +11,7 @@ module MessageExpress
         @topic = topic || 'messages'
       end
 
-      def publish(message)
+      def publish(message, _options = {})
         message = {
           message_name: message.name,
           message_payload: message.payload

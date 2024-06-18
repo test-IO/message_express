@@ -12,25 +12,41 @@ module MessageExpress
         @stream = stream
       end
 
-      def publish(message, stream: @stream)
-        message = {
-          message_name: message.name,
-          message_payload: message.payload
-        }
-        redis_client.xadd(@stream, message.to_json)
+      def xgroup(*args);end
+
+      def publish(message, options = {})
+        stream = options.fetch(:stream, @stream)
+        message.payload
+        data = { "json" => { message_name: message.name, message_payload: message.payload }.to_json }
+        redis_client.xadd(stream, data)
       end
 
-      def subscribe(consumer_group_id: 'default', stream: @stream, consumer_name: 'consumer')
+      def subscribe(options = {})
+        consumer_group_id = options.fetch(:consumer_group_id, 'message_express')
+        consumer_name = options.fetch(:consumer_name, 'consumer')
+        stream = options.fetch(:stream, @stream)
+
+        create_group(stream, consumer_group_id)
+
         messages = redis_client.xreadgroup(consumer_group_id, consumer_name, stream, '>', count: 1, block: 5000)
         messages.each do |stream, entries|
-          entries.each do |message_id, message_data|
-            message_as_hash = JSON.parse(message_data)
-
-            message_class = ::MessageExpress.message_name_to_class(message_as_hash['message_name'])
-            message = message_class.new(message_as_hash['message_name'], message_as_hash['message_payload'])
+          entries.each do |message_id, message_hash|
+            message_data = JSON.parse(message_hash["json"])
+            message_class = ::MessageExpress.message_name_to_class(message_data['message_name'])
+            message = message_class.new(message_data['message_name'], message_data['message_payload'])
             yield(message)
             redis_client.xack(stream, consumer_group_id, message_id)
           end
+        end
+      end
+
+      private
+
+      def create_group(stream_key, group_name)
+        begin
+          redis_client.xgroup(:create, stream_key, group_name, '$', mkstream: true)
+        rescue Redis::CommandError => e
+          raise unless e.message.include?('BUSYGROUP')
         end
       end
     end

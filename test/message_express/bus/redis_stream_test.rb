@@ -6,7 +6,7 @@ class DummyRedisClient
     @streams = {}
   end
 
-  def xadd(stream, data)
+  def xadd(stream, data, approximate: nil, maxlen: nil, nomkstream: nil, id: '*')
     @streams[stream] ||= []
     @streams[stream] << data
   end
@@ -17,6 +17,8 @@ class DummyRedisClient
       [streams, { index => data }]
     end
   end
+
+  def xgroup(*args);end
 
   def xack(stream, group, message_id)
   end
